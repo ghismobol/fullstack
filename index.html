@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b14">
+  <meta name="description" content="Nébula transforma ideas en experiencias digitales extraordinarias.">
+  <title>Nébula — Tecnología con visión de futuro</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b14;
+      --text: #f4f5fb;
+      --muted: #9a9fb3;
+      --purple: #a78bfa;
+      --cyan: #67e8f9;
+      --line: rgba(255, 255, 255, .1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .page-glow {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 75% 13%, rgba(98, 64, 191, .2), transparent 34%),
+        radial-gradient(ellipse at 4% 58%, rgba(23, 115, 145, .11), transparent 31%),
+        var(--bg);
+    }
+    .grid {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .16;
+      background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(to bottom, black, transparent 85%);
+    }
+    .container { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+    .navbar {
+      height: 84px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+    }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font-size: 1.17rem; font-weight: 750; letter-spacing: -.04em; }
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border: 1px solid rgba(167,139,250,.55);
+      border-radius: 11px;
+      color: var(--cyan);
+      background: linear-gradient(145deg, rgba(167,139,250,.21), rgba(103,232,249,.06));
+      box-shadow: 0 0 24px rgba(167,139,250,.16);
+      font-size: 1.1rem;
+    }
+    .nav-links { display: flex; align-items: center; gap: 34px; color: #b4b8c9; font-size: .88rem; }
+    .nav-links a:not(.nav-cta):hover { color: white; }
+    .nav-cta, .button {
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 999px;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .nav-cta { padding: 11px 17px; color: white; }
+    .nav-cta:hover, .button:hover { transform: translateY(-2px); border-color: rgba(167,139,250,.75); box-shadow: 0 8px 30px rgba(115,83,209,.2); }
+
+    .hero {
+      min-height: 660px;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 36px;
+      padding-block: 78px 90px;
+    }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #c5b5ff; font-size: .76rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+    .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 13px var(--cyan); }
+    h1 { max-width: 650px; margin: 22px 0 20px; font-size: clamp(3.3rem, 7.2vw, 6.1rem); line-height: .99; letter-spacing: -.075em; }
+    .gradient-text { color: transparent; background: linear-gradient(100deg, #c4b5fd 6%, #8b9dff 47%, #67e8f9 96%); background-clip: text; -webkit-background-clip: text; }
+    .hero-copy { max-width: 510px; color: var(--muted); font-size: 1.08rem; line-height: 1.8; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 32px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 21px; font-size: .9rem; font-weight: 650; }
+    .button-primary { color: #090b14; border: 0; background: linear-gradient(105deg, #c4b5fd, #67e8f9); box-shadow: 0 8px 35px rgba(130,112,242,.25); }
+    .button-primary:hover { box-shadow: 0 10px 42px rgba(130,112,242,.42); }
+    .button-secondary { color: #e2e3ec; background: rgba(255,255,255,.035); }
+    .arrow { transition: transform .2s; }
+    .button:hover .arrow { transform: translateX(4px); }
+
+    .visual { position: relative; display: grid; min-height: 430px; place-items: center; isolation: isolate; }
+    .orb {
+      position: absolute;
+      width: min(370px, 75vw);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 28%, rgba(197,181,253,.92), rgba(119,91,218,.55) 28%, rgba(26,61,104,.38) 55%, rgba(8,11,20,.08) 72%);
+      filter: blur(1px);
+      box-shadow: inset -25px -30px 70px rgba(3,7,18,.6), 0 0 100px rgba(137,109,246,.22);
+      animation: float 7s ease-in-out infinite;
+    }
+    .orb::before, .orb::after { content: ""; position: absolute; inset: -17%; border: 1px solid rgba(172,163,255,.35); border-radius: 50%; transform: rotate(-26deg) scaleY(.36); }
+    .orb::after { inset: -24%; transform: rotate(42deg) scaleY(.44); border-color: rgba(103,232,249,.24); }
+    .orbit-dot { position: absolute; top: 21%; right: 15%; width: 11px; height: 11px; border-radius: 50%; background: #a5f3fc; box-shadow: 0 0 22px #67e8f9; }
+    .float-card {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 17px;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 15px;
+      background: rgba(18,22,38,.77);
+      box-shadow: 0 18px 55px rgba(0,0,0,.28);
+      backdrop-filter: blur(16px);
+      animation: float 6s ease-in-out infinite;
+    }
+    .float-card.one { top: 17%; left: -2%; }
+    .float-card.two { right: -3%; bottom: 19%; animation-delay: -2s; }
+    .card-icon { display: grid; width: 34px; height: 34px; place-items: center; border-radius: 10px; background: rgba(167,139,250,.14); color: #c4b5fd; }
+    .float-card strong { display: block; font-size: .83rem; }
+    .float-card small { display: block; margin-top: 3px; color: var(--muted); font-size: .7rem; }
+
+    .section { padding-block: 46px 105px; }
+    .section-heading { max-width: 590px; margin: 0 auto 43px; text-align: center; }
+    .section-heading h2 { margin: 14px 0 12px; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -.055em; }
+    .section-heading p { margin: 0; color: var(--muted); line-height: 1.75; }
+    .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
+    .service-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 225px;
+      padding: 25px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
+      transition: transform .3s, border-color .3s, background .3s;
+    }
+    .service-card::after { content: ""; position: absolute; width: 140px; height: 140px; right: -70px; bottom: -95px; border-radius: 50%; background: rgba(139,117,255,.2); filter: blur(32px); opacity: 0; transition: opacity .3s; }
+    .service-card:hover { transform: translateY(-6px); border-color: rgba(167,139,250,.4); background: linear-gradient(145deg, rgba(167,139,250,.1), rgba(255,255,255,.02)); }
+    .service-card:hover::after { opacity: 1; }
+    .service-icon { display: grid; width: 45px; height: 45px; place-items: center; border: 1px solid rgba(167,139,250,.22); border-radius: 13px; background: rgba(167,139,250,.1); color: #c4b5fd; font-size: 1.25rem; }
+    .service-card h3 { margin: 22px 0 9px; font-size: 1.08rem; }
+    .service-card p { margin: 0; color: var(--muted); font-size: .88rem; line-height: 1.7; }
+    footer { border-top: 1px solid rgba(255,255,255,.08); }
+    .footer-inner { min-height: 92px; display: flex; align-items: center; justify-content: space-between; gap: 18px; color: var(--muted); font-size: .8rem; }
+    .footer-inner p { margin: 0; }
+    .footer-tag { color: #c4b5fd; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @keyframes float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -13px; } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+    @media (max-width: 760px) {
+      .container { width: min(100% - 36px, 540px); }
+      .navbar { height: 72px; }
+      .nav-links { gap: 17px; font-size: .8rem; }
+      .nav-links a:nth-child(2) { display: none; }
+      .nav-cta { padding: 9px 13px; }
+      .hero { min-height: auto; grid-template-columns: 1fr; gap: 5px; padding-block: 75px 55px; }
+      h1 { max-width: 540px; font-size: clamp(3.4rem, 13vw, 5.5rem); }
+      .visual { min-height: 370px; }
+      .orb { width: min(300px, 68vw); }
+      .float-card.one { left: 0; }
+      .float-card.two { right: 0; }
+      .section { padding-block: 38px 75px; }
+      .services { grid-template-columns: 1fr; gap: 12px; }
+      .service-card { min-height: auto; }
+      .footer-inner { padding-block: 22px; flex-direction: column; align-items: flex-start; justify-content: center; }
+    }
+    @media (max-width: 390px) { .nav-links { gap: 10px; } .brand { font-size: 1rem; } .nav-cta { font-size: .75rem; } }
+  </style>
+</head>
+<body>
+  <div class="page-glow" aria-hidden="true"></div>
+  <div class="grid" aria-hidden="true"></div>
+
+  <header class="container navbar">
+    <a class="brand" href="#" aria-label="Nébula, inicio">
+      <span class="brand-mark" aria-hidden="true">✳</span>
+      <span>nébula<span class="gradient-text">.</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Navegación principal">
+      <a href="#soluciones">Soluciones</a>
+      <a href="#nosotros">Nosotros</a>
+      <a class="nav-cta" href="mailto:hola@nebula.tech">Hablemos <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="container hero" id="nosotros">
+      <div class="hero-content reveal">
+        <div class="eyebrow"><span class="status-dot"></span> El futuro empieza hoy</div>
+        <h1>Ideas que mueven al <span class="gradient-text">mundo.</span></h1>
+        <p class="hero-copy">Convertimos desafíos complejos en soluciones digitales simples, inteligentes y hechas para dejar huella.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#soluciones">Descubre lo que hacemos <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="button button-secondary" href="mailto:hola@nebula.tech">Cuéntanos tu idea <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <div class="visual reveal" aria-label="Ilustración abstracta de innovación tecnológica">
+        <div class="orb" aria-hidden="true"><span class="orbit-dot"></span></div>
+        <div class="float-card one">
+          <span class="card-icon" aria-hidden="true">✧</span>
+          <span><strong>Ideas sin límites</strong><small>Diseñadas para crecer</small></span>
+        </div>
+        <div class="float-card two">
+          <span class="card-icon" aria-hidden="true">⌘</span>
+          <span><strong>Tecnología humana</strong><small>Innovación con propósito</small></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" id="soluciones">
+      <div class="section-heading reveal">
+        <div class="eyebrow"><span class="status-dot"></span> Lo que hacemos</div>
+        <h2>Construimos lo que <span class="gradient-text">sigue.</span></h2>
+        <p>Unimos estrategia, diseño y tecnología para convertir tu próxima gran idea en una realidad.</p>
+      </div>
+      <div class="services">
+        <article class="service-card reveal">
+          <span class="service-icon" aria-hidden="true">⌘</span>
+          <h3>Desarrollo digital</h3>
+          <p>Aplicaciones y plataformas rápidas, seguras y listas para acompañar tu crecimiento.</p>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-icon" aria-hidden="true">✳</span>
+          <h3>Inteligencia artificial</h3>
+          <p>Automatización y soluciones inteligentes que convierten datos en nuevas oportunidades.</p>
+        </article>
+        <article class="service-card reveal">
+          <span class="service-icon" aria-hidden="true">◈</span>
+          <h3>Diseño de experiencias</h3>
+          <p>Experiencias intuitivas y memorables, pensadas siempre alrededor de las personas.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <a class="brand" href="#" aria-label="Nébula, inicio">
+        <span class="brand-mark" aria-hidden="true">✳</span><span>nébula<span class="gradient-text">.</span></span>
+      </a>
+      <p>© <span id="year"></span> Nébula Tecnología. Hecho para imaginar más.</p>
+      <span class="footer-tag">Creando el mañana, juntos.</span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+  </script>
+</body>
+</html>
